@@ -5,6 +5,7 @@
       <Todo :console="console" :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
       <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" />
     </div>
+    <ThemeSwitcher @toggle-theme="toggleTheme" :nightMode="nightMode" />
   </div>
 </template>
 
@@ -12,11 +13,13 @@
 import Console from '@/components/Console'
 import TodoUI from '@/components/TodoUI'
 import Todo from '@/components/Todo'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 export default {
   components: {
     Console,
     TodoUI,
-    Todo
+    Todo,
+    ThemeSwitcher
   },
   data: () => ({
     taskList: [],
@@ -24,6 +27,7 @@ export default {
     console: [],
     consoleIndex: null,
     uniqueTasks: 0,
+    nightMode: true,
     API_URL: 'http://localhost:3000'
   }),
   mounted () {
@@ -228,6 +232,20 @@ export default {
         content: content,
         number: this.consoleIndex
       })
+    },
+    toggleTheme () {
+      this.nightMode = !this.nightMode
+    }
+  },
+  watch: {
+    nightMode () {
+      const body = document.getElementsByTagName('body')[0]
+      body.style.transition = '0.3s'
+      if (this.nightMode) {
+        body.style.backgroundColor = 'black'
+      } else {
+        body.style.backgroundColor = 'white'
+      }
     }
   }
 }
