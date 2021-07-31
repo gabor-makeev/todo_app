@@ -29,16 +29,16 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
 .console {
-  width: 250px;
+  max-width: 300px;
   max-height: 81vh;
-  background-color: $defaultGrey;
+  background-color: rgba(17, 25, 40, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
   padding: 10px;
   overflow: auto;
-  &-title {
-    color: $defaultGreen;
-  }
+  color: white;
   &-content {
-    color: $lighterGreen;
     margin-top: 10px;
   }
   ul {

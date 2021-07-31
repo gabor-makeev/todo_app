@@ -252,7 +252,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap');
 @import 'assets/_variables.scss';
 * {
   padding: 0;
@@ -261,7 +261,7 @@ export default {
 }
 
 body {
-  font-family: 'Inconsolata', monospace;
+  font-family: 'Roboto Mono', monospace;
   background-color: #000000;
 }
 
@@ -270,6 +270,8 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  background: no-repeat url('./assets/images/backgrounds/minimalistic.jpg');
+  background-size: cover;
 }
 
 .wrapper {
