@@ -4,7 +4,8 @@
       <button @click="toggleEditMode" class="todo-control-edit" v-bind:class="{ 'todo-control-edit-on': editMode }">Edit</button>
       <input type="text" placeholder="add a task" v-model="taskContent" class="todo-control-input">
       <select class="todo-control-priority" v-model="taskPriority">
-        <option value="0" id="defaultPriority" selected disabled hidden>Set priority</option>
+        <option value="0" id="defaultPriority" selected disabled hidden>
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="svg-inline--fa fa-sliders-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z"></path></svg></option>
         <option value="High">High</option>
         <option value="Normal">Normal</option>
         <option value="Low">Low</option>
@@ -91,10 +92,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
+@import '../assets/_glassmorphism-blocks.scss';
 .todo {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 25px;
+  padding: 25px 10px;
+  @include glassmorphBlockSetup(rgba(17, 25, 40, 0.75), rgba(255, 255, 255, 0.125));
 
   &-pinned {
     width: 250px;

@@ -5,7 +5,6 @@
       <Todo :console="console" :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
       <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" />
     </div>
-    <ThemeSwitcher @toggle-theme="toggleTheme" :nightMode="nightMode" />
   </div>
 </template>
 
@@ -13,13 +12,11 @@
 import Console from '@/components/Console'
 import TodoUI from '@/components/TodoUI'
 import Todo from '@/components/Todo'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
 export default {
   components: {
     Console,
     TodoUI,
-    Todo,
-    ThemeSwitcher
+    Todo
   },
   data: () => ({
     taskList: [],
@@ -271,15 +268,16 @@ body {
   display: flex;
   justify-content: center;
   background: no-repeat url('./assets/images/backgrounds/minimalistic.jpg');
+  background-position: center;
   background-size: cover;
 }
 
 .wrapper {
   width: 1140px;
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  min-height: 100vh;
 }
 
 </style>

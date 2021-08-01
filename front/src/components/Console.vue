@@ -1,8 +1,10 @@
 <template>
   <div class="console">
-    <span class="console-title">CONSOLE:</span>
-    <div class="console-content">
-      <span class="console-content-taskcounter">Unique tasks created during this session: {{ taskIndex }}</span>
+    <div class="console-header">
+      <span class="console-header-title">History</span>
+      <span v-show="console.length" class="console-header-taskcounter">Unique tasks created during this session: {{ taskIndex }}</span>
+    </div>
+    <div v-show="console.length" class="console-content">
       <ul>
         <li v-for="log in console" :key="log.number">
           <span v-for="notification in log.content" :key="notification.textClass" :class="notification.textClass">{{ notification.text }}</span>
@@ -28,24 +30,34 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
+@import '../assets/_glassmorphism-blocks.scss';
 .console {
   max-width: 300px;
-  max-height: 81vh;
-  background-color: rgba(17, 25, 40, 0.75);
-  backdrop-filter: blur(16px) saturate(180%);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.125);
+  @include glassmorphBlockSetup(rgba(12, 17, 27, 0.800), rgba(255, 255, 255, 0.125));
+  border-radius: 2px;
   padding: 10px;
-  overflow: auto;
   color: white;
+  &-header {
+    margin-bottom: 25px;
+    padding: 8px;
+    &-title {
+      display: block;
+      text-align: center;
+      font-size: 22px;
+    }
+  }
   &-content {
-    margin-top: 10px;
+    padding: 10px 10px;
+    background: rgba(17, 25, 40, 1);
+    border-radius: 15px;
   }
   ul {
     margin-top: 10px;
     list-style-type: none;
     display: flex;
     flex-direction: column;
+    max-height: 60vh;
+    overflow: auto;
     gap: 10px;
     li {
       box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
