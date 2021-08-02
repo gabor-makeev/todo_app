@@ -9,7 +9,11 @@
       <input type="text" placeholder="add a task" v-model="taskContent" class="todo-control-input">
       <select class="todo-control-priority" v-model="taskPriority">
         <option value="0" id="defaultPriority" selected disabled hidden>
-<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="svg-inline--fa fa-sliders-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z"></path></svg></option>
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="svg-inline--fa fa-sliders-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z">
+            </path>
+          </svg>
+        </option>
         <option value="High">High</option>
         <option value="Normal">Normal</option>
         <option value="Low">Low</option>
@@ -102,7 +106,7 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 25px;
-  padding: 25px 10px;
+  padding-bottom: 25px;
   @include glassmorphBlockSetup(rgba(17, 25, 40, 0.75), rgba(255, 255, 255, 0.125));
 
   &-pinned {
@@ -141,45 +145,55 @@ export default {
     display: flex;
     gap: 5px;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    background-color: #0c111a;
 
     &-input {
       height: 40px;
-      width: 250px;
-      background-color: #000000;
-      border: 1px $defaultGreen;
-      border-style: dashed solid;
+      max-width: 395px;
+      background-color: transparent;
+      border: none;
       padding: 0 5px;
-      color: $defaultGreen;
+      margin-left: 10px;
+      color: white;
+      flex: 1 0 auto;
       outline: none;
-      font-family: 'Inconsolata', monospace;
-      font-size: 18px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 24px;
       transition: 0.3s;
       &::placeholder {
-        color: $lighterGreen;
-        font-family: 'Inconsolata', monospace;
-      }
-      &:hover {
-        background-color: #171717;
+        color: rgba(255, 255, 255, 0.63);
+        font-family: 'Roboto Mono', monospace;
       }
     }
-    &-button,
+
     &-priority {
-      height: 25px;
-      background-color: #000000;
-      color: $defaultGreen;
-      border: 1px solid $defaultGreen;
-      border-radius: 3px;
-      transition: 0.3s;
-      cursor: pointer;
+      height: 100%;
       outline: none;
-      padding: 3px 5px;
-      font-family: 'Inconsolata', monospace;
-      font-size: 16px;
+      background-color: rgba(245, 245, 245, 0.616);
+      border: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+    }
+
+    &-priority::-ms-expand {
+      display: none;
+    }
+
+    &-button {
+      width: 50px;
+      height: 100%;
+      border: none;
+      background-color: transparent;
+      color: rgba(245, 245, 245, 0.616);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 24px;
+      cursor: pointer;
+      transition: 0.3s;
       &:hover {
-        background-color: #171717;
-      }
-      &:active {
-        background-color: #000000;
+        color: white;
       }
     }
 
@@ -187,12 +201,16 @@ export default {
       background-color: transparent;
       width: 35px;
       height: 35px;
+      margin-left: 20px;
       border: none;
       cursor: pointer;
       transition: 0.3s;
       fill: rgba(255, 255, 255, 0.822);
       &:hover {
         transform: scale(1.1);
+      }
+      &-on {
+        fill: #ffaa00;
       }
     }
   }
