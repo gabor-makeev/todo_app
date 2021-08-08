@@ -7,17 +7,15 @@
         </svg>
       </button>
       <input type="text" placeholder="add a task" v-model="taskContent" class="todo-control-input">
-      <select class="todo-control-priority" v-model="taskPriority">
-        <option value="0" id="defaultPriority" selected disabled hidden>
-          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="svg-inline--fa fa-sliders-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <path d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z">
-            </path>
-          </svg>
-        </option>
-        <option value="High">High</option>
-        <option value="Normal">Normal</option>
-        <option value="Low">Low</option>
-      </select>
+      <div class="todo-control-priority">
+        <button class="todo-control-priority-button" v-bind:class="{ 'todo-control-priority-button-active': priorityBox }" @click="togglePriorityBox">Choose</button>
+        <div class="todo-control-priority-selector" v-show="priorityBox">
+          <button class="todo-control-high-priority" @click="changePriority('High')">High</button>
+          <button class="todo-control-normal-priority" @click="changePriority('Normal')">Normal</button>
+          <button class="todo-control-low-priority" @click="changePriority('Low')">Low</button>
+          <button class="todo-control-none-priority" @click="changePriority('None')">None</button>
+        </div>
+      </div>
       <button @click="initTaskCreation(taskContent, taskPriority)" class="todo-control-button">Add</button>
     </div>
     <div class="todo-pinned" v-show="pinnedTasks">
@@ -42,7 +40,8 @@ export default {
     taskContent: '',
     taskPriority: '',
     editMode: false,
-    pinnedTasks: false
+    pinnedTasks: false,
+    priorityBox: false
   }),
   mounted () {
     this.taskPriority = 0
@@ -78,12 +77,25 @@ export default {
       this.createTask(task, taskPriority)
       this.taskContent = ''
       this.taskPriority = 0
+      document.querySelector('.todo-control-priority-button').textContent = 'choose'
     },
     removeElement (task) {
       this.$emit('remove-task', task)
     },
     toggleEditMode () {
       this.editMode = !this.editMode
+    },
+    togglePriorityBox () {
+      this.priorityBox = !this.priorityBox
+    },
+    changePriority (priority) {
+      if (priority === 'None') {
+        this.taskPriority = 0
+      } else {
+        this.taskPriority = priority
+      }
+      this.priorityBox = false
+      document.querySelector('.todo-control-priority-button').textContent = priority
     },
     arePinnedTasks () {
       let pinnedTasks = false
@@ -145,14 +157,14 @@ export default {
     display: flex;
     gap: 5px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
     height: 60px;
     background-color: #0c111a;
 
     &-input {
       height: 40px;
-      max-width: 395px;
+      max-width: 320px;
       background-color: transparent;
       border: none;
       padding: 0 5px;
@@ -169,19 +181,6 @@ export default {
       }
     }
 
-    &-priority {
-      height: 100%;
-      outline: none;
-      background-color: rgba(245, 245, 245, 0.616);
-      border: none;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-    }
-
-    &-priority::-ms-expand {
-      display: none;
-    }
-
     &-button {
       width: 50px;
       height: 100%;
@@ -192,6 +191,7 @@ export default {
       font-size: 24px;
       cursor: pointer;
       transition: 0.3s;
+      margin-right: 15px;
       &:hover {
         color: white;
       }
@@ -211,6 +211,38 @@ export default {
       }
       &-on {
         fill: #ffaa00;
+      }
+    }
+    &-priority {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      width: 80px;
+      &-button {
+        font-family: 'Roboto Mono', monospace;
+        border: 1px solid rgba(170, 172, 177, 0.397);;
+        background-color: transparent;
+        color: white;
+        width: 100%;
+        height: 30px;
+        font-size: 16px;
+        transition: 0.3s;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(170, 172, 177, 0.397);
+        }
+        &-active {
+          background-color: rgba(170, 172, 177, 0.397);
+        }
+      }
+      &-selector {
+        position: absolute;
+        width: 100px;
+        height: 50px;
+        display: grid;
+        box-shadow: rgba(99, 99, 99, 1) 0px 2px 8px 0px;
+        grid-template-rows: 1fr 1fr 1fr;
+        margin: 35px 0 0 0;
       }
     }
   }
