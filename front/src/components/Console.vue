@@ -32,7 +32,7 @@ export default {
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
 .console {
-  max-width: 300px;
+  width: 300px;
   @include glassmorphBlockSetup(rgba(12, 17, 27, 0.800), rgba(255, 255, 255, 0.125));
   border-radius: 2px;
   padding: 10px;
@@ -60,7 +60,6 @@ export default {
     overflow: auto;
     gap: 10px;
     li {
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
       padding: 5px;
     }
     li span {

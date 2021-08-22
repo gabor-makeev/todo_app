@@ -95,7 +95,8 @@ export default {
         this.taskPriority = priority
       }
       this.priorityBox = false
-      document.querySelector('.todo-control-priority-button').textContent = priority
+      const priorityButton = document.querySelector('.todo-control-priority-button')
+      priorityButton.textContent = priority
     },
     arePinnedTasks () {
       let pinnedTasks = false
@@ -117,21 +118,24 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
   padding-bottom: 25px;
   @include glassmorphBlockSetup(rgba(17, 25, 40, 0.75), rgba(255, 255, 255, 0.125));
 
   &-pinned {
-    width: 250px;
+    width: 100%;
     background-color: rgba(255, 255, 0, 0.04);
-    box-shadow: rgb(0, 0, 0) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
     position: relative;
     padding: 45px 20px 10px 20px;
-    margin: 0 0 0 70px;
     transition: 0.3s;
+    &-paperclip {
+      transition: 0.3s;
+    }
+
+    & .todo-element {
+      border: none;
+    }
 
     &:hover {
-      transform: scale(1.025);
 
       & .todo-pinned-paperclip {
         fill: #ffaa00;
@@ -143,14 +147,14 @@ export default {
       fill: #FFAA00BF;
       position: absolute;
       top: 10px;
-      left: 110px;
+      left: 50%;
     }
   }
 
   &-unpinned {
-    margin: 0 0 0 70px;
+    margin-top: 10px;
     padding: 0 20px 10px 20px;
-    width: 250px;
+    width: 100%;
   }
 
   &-control {
@@ -237,13 +241,41 @@ export default {
       }
       &-selector {
         position: absolute;
-        width: 100px;
-        height: 50px;
+        width: 130px;
+        min-height: 100px;
         display: grid;
         box-shadow: rgba(99, 99, 99, 1) 0px 2px 8px 0px;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
         margin: 35px 0 0 0;
+        z-index: 100;
+        & button {
+          border: none;
+          padding: 10px 0;
+          background-color: rgb(17, 25, 40);
+          transition: 0.3s;
+          cursor: pointer;
+          opacity: 0.75;
+          font-family: inherit;
+          font-weight: bold;
+          font-size: 14px;
+          &:hover {
+            background-color: rgba(8, 12, 19, 0.835);
+            opacity: 1;
+          }
+        }
       }
+    }
+    &-high-priority {
+      color: rgba(224, 106, 106, 1);
+    }
+    &-normal-priority {
+      color: rgb(106, 161, 224);
+    }
+    &-low-priority {
+      color: rgb(133, 224, 106);
+    }
+    &-none-priority {
+      color: rgb(207, 207, 207);
     }
   }
 }

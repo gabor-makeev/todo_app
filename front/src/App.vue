@@ -3,7 +3,7 @@
     <div class="wrapper">
       <Console :taskIndex="uniqueTasks" :console="console" />
       <Todo :console="console" :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
-      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" />
+      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @reset-console="resetConsole" />
     </div>
   </div>
 </template>
@@ -116,6 +116,7 @@ export default {
         .then(() => {
           this.getTaskList()
         })
+      this.resetConsole()
       cb()
     },
     // removeCompletedTasks sends a POST request
@@ -232,6 +233,9 @@ export default {
     },
     toggleTheme () {
       this.nightMode = !this.nightMode
+    },
+    resetConsole () {
+      this.console = []
     }
   },
   watch: {
