@@ -138,13 +138,13 @@ export default {
     &:hover {
 
       & .todo-pinned-paperclip {
-        fill: #ffaa00;
+        fill: rgb(17, 25, 40, 0.75);
       }
     }
 
     &-paperclip {
       width: 30px;
-      fill: #FFAA00BF;
+      fill: rgb(17, 25, 40);
       position: absolute;
       top: 10px;
       left: 50%;
