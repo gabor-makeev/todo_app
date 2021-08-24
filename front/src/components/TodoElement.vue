@@ -45,12 +45,15 @@ export default {
   justify-content: space-between;
   gap: 15px;
   transition: 0.3s;
-  border-bottom: 2px solid #4287f53d;
+  border-bottom: 2px solid $defaultHr;
   padding: 0 10px;
   z-index: 100;
 
   &:hover {
-    background-color: rgba(130, 129, 129, 0.198);
+    background-color: $todoElementHover;
+    & .todo-element-text {
+      color: white;
+    }
   }
 
   &-leftside {
@@ -63,7 +66,7 @@ export default {
     align-items: center;
     gap: 10px;
     & span {
-      @include glassmorphBlockSetup(rgba(17, 25, 40, 0.39), rgba(255, 255, 255, 0.125));
+      @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
       padding: 5px;
       min-width: 70px;
       text-align: center;
@@ -73,36 +76,33 @@ export default {
     }
   }
   &-selected {
-    background-color: rgba(130, 129, 129, 0.253);
+    background-color: $todoElementSelected;
     &:hover {
-      background-color: rgba(130, 129, 129, 0.253);
+      background-color: $todoElementSelected;
     }
   }
   &-checkbox {
     width: 20px;
   }
   &-text {
-    color: rgba(255, 255, 255, 0.8);
+    color: $defaultTextColor;
     transition: 0.2s;
     cursor: default;
-    &:hover {
-      color: rgb(255, 255, 255);
-    }
   }
   &-priority {
     &-low {
-      color: rgb(133, 224, 106);
+      color: $lowPriority;
     }
     &-normal {
-      color: rgb(106, 161, 224);
+      color: $normalPriority;
     }
     &-high {
-      color: rgba(224, 106, 106, 1);
+      color: $highPriority;
     }
   }
   &-bin,
   &-pin {
-    fill: $lighterRed;
+    fill: $defaultRed;
     cursor: pointer;
     transition: 0.3s;
     &:hover {
@@ -110,9 +110,9 @@ export default {
     }
   }
   &-pin {
-    fill: rgba(255, 170, 0, 0.75);
+    fill: $defaultYellow;
     &:hover {
-      fill: #ffaa00;
+      fill: $hoverYellow;
     }
   }
   &-completed {

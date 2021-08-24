@@ -67,7 +67,7 @@ export default {
   max-width: 290px;
   display: flex;
   flex-direction: column;
-  @include glassmorphBlockSetup(rgba(12, 17, 27, 0.800), rgba(255, 255, 255, 0.125));
+  @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
   border-radius: 2px;
   &-title {
     width: 100%;
@@ -89,11 +89,11 @@ export default {
     gap: 10px;
   }
   & button {
-    background-color: rgba(17, 25, 40, 0.397);
+    background-color: $buttonBackground;
     border: none;
     border-radius: 15px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    color: rgba(255, 255, 255, 0.80);
+    box-shadow: $todoGlassMorphBackground 0px 2px 8px 0px;
+    color: $defaultTextColor;
     padding: 8px;
     transition: 0.3s;
     cursor: pointer;
@@ -102,12 +102,12 @@ export default {
     font-size: 16px;
     width: 100%;
     &:hover {
-      background-color: rgba(17, 25, 40, 0.753);
-      color: rgba(255, 255, 255, 1);
+      background-color: $buttonHoverBackground;
+      color: white;
     }
     &:active {
-      background-color: rgba(17, 25, 40, 0.397);
-      color: rgba(255, 255, 255, 0.80);
+      background-color: $buttonBackground;
+      color: $defaultTextColor;
       box-shadow: none;
     }
   }
@@ -116,22 +116,22 @@ export default {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: rgba(17, 25, 40, 0.397);
+    background-color: $buttonBackground;
     border: none;
     border-radius: 15px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-shadow: $todoGlassMorphBackground 0px 2px 8px 0px;
     font-size: 14px;
     width: 100%;
     &:hover {
       & span {
-        color: rgb(255, 255, 255);
+        color: white;
       }
       & select {
-        color: rgb(255, 255, 255);
+        color: white;
       }
     }
     & span {
-      color: rgba(255, 255, 255, 0.80);
+      color: $defaultTextColor;
       transition: 0.3s;
       width: 50%;
       padding: 10px 0 10px 7px;
@@ -143,8 +143,8 @@ export default {
       border-top-right-radius: 15px;
       border-bottom-right-radius: 15px;
       width: 50%;
-      background-color: rgb(12, 17, 26);
-      color: rgba(255, 255, 255, 0.80);
+      background-color: $minorContentBackground;
+      color: $defaultTextColor;
       font-family: inherit;
       transition: 0.3s;
     }

@@ -33,7 +33,7 @@ export default {
 @import '../assets/_glassmorphism-blocks.scss';
 .console {
   width: 300px;
-  @include glassmorphBlockSetup(rgba(12, 17, 27, 0.800), rgba(255, 255, 255, 0.125));
+  @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
   border-radius: 2px;
   padding: 10px;
   color: white;
@@ -48,7 +48,7 @@ export default {
   }
   &-content {
     padding: 10px 10px;
-    background: rgba(17, 25, 40, 1);
+    background-color: $minorContentBackground;
     border-radius: 15px;
   }
   ul {
@@ -67,7 +67,7 @@ export default {
     }
   }
   &-error-content {
-    color: rgba(255, 0, 0, 0.59);
+    color: $errorRed;
   }
   &-resolve-header {
     padding: 0 calc(100px - 50% / 2);
@@ -76,18 +76,18 @@ export default {
   &-resolve-header,
   &-resolve-content::before,
   &-resolve-priority::before {
-    color: #5d5dfc;
+    color: $infoBlue;
   }
   &-resolve-content {
     font-style: italic;
-    color: #c5c5c5;
+    color: $defaultTextColor;
     &::before {
       content: 'content:';
       font-style: normal;
     }
   }
   &-resolve-priority {
-    color: #c5c5c5;
+    color: $defaultTextColor;
     &::before {
       content: 'priority:';
     }

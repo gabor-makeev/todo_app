@@ -119,11 +119,11 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-bottom: 25px;
-  @include glassmorphBlockSetup(rgba(17, 25, 40, 0.75), rgba(255, 255, 255, 0.125));
+  @include glassmorphBlockSetup($todoGlassMorphBackground, $todoGlassMorphBorder);
 
   &-pinned {
     width: 100%;
-    background-color: rgba(255, 255, 0, 0.04);
+    background-color: $todoPinnedBackground;
     position: relative;
     padding: 45px 20px 10px 20px;
     transition: 0.3s;
@@ -138,13 +138,13 @@ export default {
     &:hover {
 
       & .todo-pinned-paperclip {
-        fill: rgb(17, 25, 40, 0.75);
+        fill: $hoverYellow;
       }
     }
 
     &-paperclip {
       width: 30px;
-      fill: rgb(17, 25, 40);
+      fill: $defaultYellow;
       position: absolute;
       top: 10px;
       left: 50%;
@@ -164,7 +164,7 @@ export default {
     justify-content: space-evenly;
     width: 100%;
     height: 60px;
-    background-color: #0c111a;
+    background-color: $minorContentBackground;
 
     &-input {
       height: 40px;
@@ -180,7 +180,7 @@ export default {
       font-size: 24px;
       transition: 0.3s;
       &::placeholder {
-        color: rgba(255, 255, 255, 0.63);
+        color: $defaultPlaceholderColor;
         font-family: 'Roboto Mono', monospace;
       }
     }
@@ -190,7 +190,7 @@ export default {
       height: 100%;
       border: none;
       background-color: transparent;
-      color: rgba(245, 245, 245, 0.616);
+      color: $defaultTextColor;
       font-family: 'Roboto Mono', monospace;
       font-size: 24px;
       cursor: pointer;
@@ -209,12 +209,15 @@ export default {
       border: none;
       cursor: pointer;
       transition: 0.3s;
-      fill: rgba(255, 255, 255, 0.822);
+      fill: $defaultSVGcolor;
       &:hover {
-        transform: scale(1.1);
+        fill: $hoverSVGcolor;
       }
       &-on {
-        fill: #ffaa00;
+        fill: $hoverYellow;
+        &:hover {
+          fill: $hoverYellow;
+        }
       }
     }
     &-priority {
@@ -224,7 +227,7 @@ export default {
       width: 80px;
       &-button {
         font-family: 'Roboto Mono', monospace;
-        border: 1px solid rgba(170, 172, 177, 0.397);;
+        border: 1px solid $classicGlassMorphBorder;
         background-color: transparent;
         color: white;
         width: 100%;
@@ -233,10 +236,10 @@ export default {
         transition: 0.3s;
         cursor: pointer;
         &:hover {
-          background-color: rgba(170, 172, 177, 0.397);
+          background-color: $classicGlassMorphBorder;
         }
         &-active {
-          background-color: rgba(170, 172, 177, 0.397);
+          background-color: $classicGlassMorphBorder;
         }
       }
       &-selector {
@@ -244,14 +247,14 @@ export default {
         width: 130px;
         min-height: 100px;
         display: grid;
-        box-shadow: rgba(99, 99, 99, 1) 0px 2px 8px 0px;
+        box-shadow: $classicGlassMorphBorder 0px 2px 8px 0px;
         grid-template-rows: 1fr 1fr 1fr 1fr;
         margin: 35px 0 0 0;
         z-index: 100;
         & button {
           border: none;
           padding: 10px 0;
-          background-color: rgb(17, 25, 40);
+          background-color: $moduleBackground;
           transition: 0.3s;
           cursor: pointer;
           opacity: 0.75;
@@ -259,23 +262,23 @@ export default {
           font-weight: bold;
           font-size: 14px;
           &:hover {
-            background-color: rgba(8, 12, 19, 0.835);
+            background-color: $moduleHoverBackground;
             opacity: 1;
           }
         }
       }
     }
     &-high-priority {
-      color: rgba(224, 106, 106, 1);
+      color: $highPriority;
     }
     &-normal-priority {
-      color: rgb(106, 161, 224);
+      color: $normalPriority;
     }
     &-low-priority {
-      color: rgb(133, 224, 106);
+      color: $lowPriority;
     }
     &-none-priority {
-      color: rgb(207, 207, 207);
+      color: $nonePriority;
     }
   }
 }

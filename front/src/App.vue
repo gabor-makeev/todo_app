@@ -263,7 +263,7 @@ export default {
 
 body {
   font-family: 'Roboto Mono', monospace;
-  background-color: #000000;
+  background-color: $bodyBackground;
 }
 
 #app {
