@@ -1,27 +1,50 @@
+//* default HTML elements
 $bodyBackground: #000000;
+
+//* Glassmorphism-related colors
 $classicGlassMorphBackground: rgba(12, 17, 27, 0.8);
 $classicGlassMorphBorder: rgba(255, 255, 255, 0.125);
 $todoGlassMorphBackground: rgba(17, 25, 40, 0.75);
 $todoGlassMorphBorder: rgba(255, 255, 255, 0.125);
+
+//* Pinned tasks block
 $todoPinnedBackground: rgba(255, 255, 0, 0.04);
+
+//* "add a task" field background, console message background and todoUI filter and sort "Options" windows
 $minorContentBackground: #0c111a;
+
+//* Deletion and other removal elements
 $defaultRed: rgba(255, 0, 0, 0.38);
+
+//* Console(History) notifications
 $errorRed: rgba(255, 0, 0, 0.59);
 $infoBlue: #5d5dfc;
+
+//* Pinning elements and edit states and buttons
 $defaultYellow: rgba(255, 170, 0, 0.75);
 $hoverYellow: #ffaa00;
+
+//* Regular text and content elements
 $defaultTextColor: rgba(255, 255, 255, 0.8);
 $defaultPlaceholderColor: rgba(255, 255, 255, 0.63);
 $defaultSVGcolor: $defaultPlaceholderColor;
 $hoverSVGcolor: $defaultTextColor;
+
+//* Absolute elements that cover static elements
 $moduleBackground: rgb(17, 25, 40);
 $moduleHoverBackground: rgba(8, 12, 19, 0.835);
+
+//* Elements that define priority
 $highPriority: rgba(224, 106, 106, 1);
 $normalPriority: rgb(106, 161, 224);
 $lowPriority: rgb(133, 224, 106);
 $nonePriority: rgb(207, 207, 207);
+
+//* Elements related to single task elements
 $defaultHr: #4287f53d;
 $todoElementHover: rgba(130, 129, 129, 0.198);
 $todoElementSelected: rgba(130, 129, 129, 0.253);
+
+//* UI buttons
 $buttonBackground: rgba(17, 25, 40, 0.397);
 $buttonHoverBackground: rgba(17, 25, 40, 0.753);
