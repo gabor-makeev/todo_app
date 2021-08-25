@@ -38,11 +38,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
+@import '../assets/_mixins.scss';
 .todo-element {
   min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include setupFlex(space-between, center, unset);
   gap: 15px;
   transition: 0.3s;
   border-bottom: 2px solid $defaultHr;
@@ -54,11 +53,6 @@ export default {
     & .todo-element-text {
       color: white;
     }
-  }
-
-  &-leftside {
-    display: flex;
-    align-items: center;
   }
 
   &-rightside {

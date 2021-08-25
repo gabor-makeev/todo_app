@@ -254,23 +254,14 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap');
+@import 'assets/_global-styles.scss';
 @import 'assets/_variables.scss';
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Roboto Mono', monospace;
-  background-color: $bodyBackground;
-}
+@import 'assets/_mixins.scss';
 
 #app {
+  @include setupFlex(center, unset, unset);
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
+  height: 100vh;
   background: no-repeat url('./assets/images/backgrounds/minimalistic.jpg');
   background-position: center;
   background-size: cover;

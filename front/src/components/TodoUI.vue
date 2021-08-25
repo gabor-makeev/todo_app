@@ -63,18 +63,16 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
+@import '../assets/_mixins.scss';
 .todo-ui {
-  max-width: 290px;
-  display: flex;
-  flex-direction: column;
+  @include setupFlex(flex-start, center, column);
   @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
+  max-width: 290px;
   border-radius: 2px;
   &-title {
+    @include setupFlex();
     width: 100%;
     height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     & svg {
       width: 100px;
       height: 60px;
@@ -82,10 +80,8 @@ export default {
     }
   }
   &-menu {
+    @include setupFlex(unset, center, column);
     padding: 0 25px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     gap: 10px;
   }
   & button {
@@ -113,8 +109,7 @@ export default {
   }
   &-filter,
   &-sort {
-    display: flex;
-    align-items: center;
+    @include setupFlex(unset, center, unset);
     gap: 10px;
     background-color: $buttonBackground;
     border: none;

@@ -32,8 +32,8 @@ export default {
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
 .console {
-  width: 300px;
   @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
+  width: 300px;
   border-radius: 2px;
   padding: 10px;
   color: white;
@@ -54,8 +54,6 @@ export default {
   ul {
     margin-top: 10px;
     list-style-type: none;
-    display: flex;
-    flex-direction: column;
     max-height: 60vh;
     overflow: auto;
     gap: 10px;

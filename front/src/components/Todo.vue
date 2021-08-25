@@ -114,12 +114,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
+@import '../assets/_mixins.scss';
 .todo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 25px;
   @include glassmorphBlockSetup($todoGlassMorphBackground, $todoGlassMorphBorder);
+  padding-bottom: 25px;
 
   &-pinned {
     width: 100%;
@@ -158,23 +156,20 @@ export default {
   }
 
   &-control {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    justify-content: space-evenly;
+    @include setupFlex(space-between, center, unset);
+    padding: 0 15px;
     width: 100%;
     height: 60px;
     background-color: $minorContentBackground;
 
     &-input {
       height: 40px;
-      max-width: 320px;
+      flex: 1 1 auto;
       background-color: transparent;
       border: none;
       padding: 0 5px;
       margin-left: 10px;
       color: white;
-      flex: 1 0 auto;
       outline: none;
       font-family: 'Roboto Mono', monospace;
       font-size: 24px;
@@ -186,7 +181,7 @@ export default {
     }
 
     &-button {
-      width: 50px;
+      flex: 0 0 50px;
       height: 100%;
       border: none;
       background-color: transparent;
@@ -195,7 +190,6 @@ export default {
       font-size: 24px;
       cursor: pointer;
       transition: 0.3s;
-      margin-right: 15px;
       &:hover {
         color: white;
       }
@@ -203,9 +197,8 @@ export default {
 
     &-edit {
       background-color: transparent;
-      width: 35px;
+      flex: 0 0 35px;
       height: 35px;
-      margin-left: 20px;
       border: none;
       cursor: pointer;
       transition: 0.3s;
@@ -221,16 +214,17 @@ export default {
       }
     }
     &-priority {
+      @include setupFlex(center, unset, unset);
+      flex: 0 1 auto;
+      margin-right: 7px;
       position: relative;
-      display: flex;
-      justify-content: center;
-      width: 80px;
       &-button {
         font-family: 'Roboto Mono', monospace;
         border: 1px solid $classicGlassMorphBorder;
         background-color: transparent;
         color: white;
         width: 100%;
+        padding: 0 10px;
         height: 30px;
         font-size: 16px;
         transition: 0.3s;
