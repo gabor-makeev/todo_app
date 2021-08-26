@@ -33,7 +33,7 @@ export default {
 @import '../assets/_glassmorphism-blocks.scss';
 .console {
   @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
-  width: 300px;
+  flex: 0 1 300px;
   border-radius: 2px;
   padding: 10px;
   color: white;
@@ -89,6 +89,12 @@ export default {
     &::before {
       content: 'priority:';
     }
+  }
+}
+
+@media (max-width: 1000px) {
+  .console {
+    display: none;
   }
 }
 </style>

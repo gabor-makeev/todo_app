@@ -5,6 +5,7 @@
         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" class="svg-inline--fa fa-edit fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
           <path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path>
         </svg>
+        <span>Edit</span>
       </button>
       <input type="text" placeholder="add a task" v-model="taskContent" class="todo-control-input">
       <div class="todo-control-priority">
@@ -156,10 +157,10 @@ export default {
   }
 
   &-control {
-    @include setupFlex(space-between, center, unset);
+    @include setupFlex(space-evenly, center, unset);
     padding: 0 15px;
     width: 100%;
-    height: 60px;
+    min-height: 60px;
     background-color: $minorContentBackground;
 
     &-input {
@@ -168,7 +169,7 @@ export default {
       background-color: transparent;
       border: none;
       padding: 0 5px;
-      margin-left: 10px;
+      margin-left: 5px;
       color: white;
       outline: none;
       font-family: 'Roboto Mono', monospace;
@@ -181,7 +182,7 @@ export default {
     }
 
     &-button {
-      flex: 0 0 50px;
+      width: 50px;
       height: 100%;
       border: none;
       background-color: transparent;
@@ -212,10 +213,13 @@ export default {
           fill: $hoverYellow;
         }
       }
+      & span {
+        display: none;
+      }
     }
     &-priority {
       @include setupFlex(center, unset, unset);
-      flex: 0 1 auto;
+      flex: 0 1 80px;
       margin-right: 7px;
       position: relative;
       &-button {
@@ -273,6 +277,80 @@ export default {
     }
     &-none-priority {
       color: $nonePriority;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .todo {
+    width: 100%;
+    height: 100%;
+    padding: 15vh 0 0 0;
+    &-control {
+      flex-wrap: wrap;
+      padding: 15px 15px;
+      width: unset;
+      max-width: (100%/4) * 3;
+      margin: 0 auto;
+      background-color: transparent;
+      &-input {
+        order: -1;
+        width: 100%;
+        background-color: $minorContentBackground;
+        padding: 30px 15px;
+        margin-left: 0;
+        &::placeholder {
+          text-align: center;
+        }
+      }
+      &-button {
+        flex: 0 0 (100%/3);
+        background-color: $defaultGreen;
+        font-size: 18px;
+        height: 35px;
+        color: $minorContentBackground;
+        &:active {
+          background-color: $minorContentBackground;
+          color: $defaultGreen;
+          box-shadow: 0 0 0 2px $defaultGreen inset;
+        }
+      }
+      &-edit {
+        flex: 0 0 (100%/3);
+        background-color: $defaultYellow;
+        font-family: inherit;
+        font-size: 18px;
+        color: $minorContentBackground;
+        & svg {
+          display: none;
+        }
+        & span {
+          display: block;
+        }
+        &-on {
+          background-color: $minorContentBackground;
+          box-shadow: 0 0 0 2px $defaultYellow inset;
+          & span {
+            color: $defaultYellow;
+          }
+        }
+      }
+      &-priority {
+        flex: 0 0 (100%/3);
+        order: 0;
+        margin-right: 0;
+        &-button {
+          height: 35px;
+          background-color: $defaultBlue;
+          border: none;
+          &:hover {
+            background-color: $hoverBlue;
+          }
+          &-active {
+            background-color: $hoverBlue;
+          }
+        }
+      }
     }
   }
 }

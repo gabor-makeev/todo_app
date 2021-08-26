@@ -145,4 +145,10 @@ export default {
     }
   }
 }
+
+@media (max-width: 1000px) {
+  .todo-ui {
+    display: none;
+  }
+}
 </style>

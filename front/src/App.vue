@@ -275,4 +275,10 @@ export default {
   min-height: 100vh;
 }
 
+@media (max-width: 1000px) {
+  .wrapper {
+    display: block;
+  }
+}
+
 </style>
