@@ -78,7 +78,7 @@ export default {
       this.createTask(task, taskPriority)
       this.taskContent = ''
       this.taskPriority = 0
-      document.querySelector('.todo-control-priority-button').textContent = 'choose'
+      document.querySelector('.todo-control-priority-button').textContent = 'Choose'
     },
     removeElement (task) {
       this.$emit('remove-task', task)
@@ -116,6 +116,7 @@ export default {
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
 @import '../assets/_mixins.scss';
+@import '../assets/_keyframes.scss';
 .todo {
   @include glassmorphBlockSetup($todoGlassMorphBackground, $todoGlassMorphBorder);
   padding-bottom: 25px;
@@ -299,6 +300,8 @@ export default {
         background-color: $minorContentBackground;
         padding: 30px 15px;
         margin-left: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
         &::placeholder {
           text-align: center;
         }
@@ -309,6 +312,7 @@ export default {
         font-size: 18px;
         height: 35px;
         color: $minorContentBackground;
+        border-bottom-right-radius: 10px;
         &:active {
           background-color: $minorContentBackground;
           color: $defaultGreen;
@@ -321,6 +325,7 @@ export default {
         font-family: inherit;
         font-size: 18px;
         color: $minorContentBackground;
+        border-bottom-left-radius: 10px;
         & svg {
           display: none;
         }
@@ -341,15 +346,28 @@ export default {
         margin-right: 0;
         &-button {
           height: 35px;
-          background-color: $defaultBlue;
+          background-color: $hoverBlue;
           border: none;
-          &:hover {
+          &:focus {
             background-color: $hoverBlue;
           }
           &-active {
-            background-color: $hoverBlue;
+            background-color: $minorContentBackground;
+            box-shadow: 0 0 0 2px $hoverBlue inset;
+            color: $hoverBlue;
+            &:focus {
+              background-color: $minorContentBackground;
+            }
           }
         }
+        &-selector {
+          width: 100%;
+          animation: 0.3s alternate linear dropdown;
+        }
+      }
+      &-none-priority {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
       }
     }
   }
