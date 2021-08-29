@@ -11,6 +11,12 @@
         </li>
       </ul>
     </div>
+    <button class="console-modal-terminator" @click="$emit('toggle-mobile-console')">
+      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="svg-inline--fa fa-times-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+        </path>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -31,6 +37,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_variables.scss';
 @import '../assets/_glassmorphism-blocks.scss';
+@import '../assets/_mixins.scss';
 .console {
   @include glassmorphBlockSetup($classicGlassMorphBackground, $classicGlassMorphBorder);
   flex: 0 1 300px;
@@ -90,11 +97,62 @@ export default {
       content: 'priority:';
     }
   }
+  &-modal-terminator {
+    display: none;
+  }
 }
 
 @media (max-width: 1000px) {
   .console {
+    @include setupFlex(unset, center, column);
     display: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    &-header,
+    &-content {
+      width: 75%;
+    }
+    &-header-taskcounter {
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+    &-content ul li {
+      @include setupFlex(unset, center, column)
+    }
+    &-modal-terminator {
+      @include setupFlex(center, center, unset);
+      position: absolute;
+      bottom: 10px;
+      background-color: $defaultYellow;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 0;
+      margin: 0 auto;
+      width: 75%;
+      cursor: pointer;
+      fill: $minorContentBackground;
+      transition: 0.3s;
+      &:hover {
+        fill: $hoverYellow;
+        border-color: $hoverYellow;
+      }
+      &:active {
+        fill: $defaultYellow;
+        border-color: $defaultYellow;
+        background-color: $minorContentBackground;
+      }
+      & svg {
+        width: 50px;
+      }
+    }
+  }
+  .visible-mobile-console {
+    display: flex;
   }
 }
 </style>

@@ -326,6 +326,9 @@ export default {
         font-size: 18px;
         color: $minorContentBackground;
         border-bottom-left-radius: 10px;
+        &:hover {
+          color: white;
+        }
         & svg {
           display: none;
         }
@@ -348,6 +351,11 @@ export default {
           height: 35px;
           background-color: $hoverBlue;
           border: none;
+          color: $minorContentBackground;
+          &:hover {
+            background-color: $hoverBlue;
+            color: white;
+          }
           &:focus {
             background-color: $hoverBlue;
           }
@@ -357,12 +365,12 @@ export default {
             color: $hoverBlue;
             &:focus {
               background-color: $minorContentBackground;
+              color: $hoverBlue;
             }
           }
         }
         &-selector {
           width: 100%;
-          animation: 0.3s alternate linear dropdown;
         }
       }
       &-none-priority {
