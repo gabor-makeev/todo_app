@@ -3,7 +3,7 @@
     <div class="wrapper">
       <Console :taskIndex="uniqueTasks" :console="console" @toggle-mobile-console="toggleMobileConsole" />
       <Todo :console="console" :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
-      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @reset-console="resetConsole" />
+      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @reset-console="resetConsole" @toggle-mobile-todo-ui="toggleMobileTodoUI" />
       <div class="todo-mobile-buttons">
         <button class="todo-mobile-log-trigger" @click="toggleMobileConsole">
           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="history" class="svg-inline--fa fa-history fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -11,7 +11,7 @@
             </path>
           </svg>
         </button>
-        <button class="todo-mobile-menu-trigger">
+        <button class="todo-mobile-menu-trigger" @click="toggleMobileTodoUI">
           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z">
             </path>
@@ -269,7 +269,12 @@ export default {
         .querySelector('.console')
         .classList
         .toggle('visible-mobile-console')
-      console.log(document.querySelector('.console').classList)
+    },
+    toggleMobileTodoUI () {
+      document
+        .querySelector('.todo-ui')
+        .classList
+        .toggle('visible-mobile-todo-ui')
     }
   },
   watch: {
@@ -341,6 +346,7 @@ export default {
       &:hover {
         fill: $hoverYellow;
         border-color: $hoverYellow;
+        background-color: $minorContentBackground;
       }
       &:active {
         fill: $defaultYellow;

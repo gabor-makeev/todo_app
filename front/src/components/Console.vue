@@ -138,13 +138,14 @@ export default {
       fill: $minorContentBackground;
       transition: 0.3s;
       &:hover {
+        background-color: $minorContentBackground;
         fill: $hoverYellow;
-        border-color: $hoverYellow;
+        box-shadow: 0 0 0 2px $hoverYellow inset;
       }
       &:active {
-        fill: $defaultYellow;
-        border-color: $defaultYellow;
-        background-color: $minorContentBackground;
+        fill: $minorContentBackground;
+        box-shadow: 0 0 0 2px $minorContentBackground inset;
+        background-color: $defaultYellow;
       }
       & svg {
         width: 50px;

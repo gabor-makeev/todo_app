@@ -313,6 +313,9 @@ export default {
         height: 35px;
         color: $minorContentBackground;
         border-bottom-right-radius: 10px;
+        &:hover {
+          color: $minorContentBackground;
+        }
         &:active {
           background-color: $minorContentBackground;
           color: $defaultGreen;
@@ -327,7 +330,7 @@ export default {
         color: $minorContentBackground;
         border-bottom-left-radius: 10px;
         &:hover {
-          color: white;
+          color: $minorContentBackground;
         }
         & svg {
           display: none;
@@ -354,7 +357,7 @@ export default {
           color: $minorContentBackground;
           &:hover {
             background-color: $hoverBlue;
-            color: white;
+            color: $minorContentBackground;
           }
           &:focus {
             background-color: $hoverBlue;
