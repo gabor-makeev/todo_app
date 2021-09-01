@@ -287,12 +287,17 @@ export default {
     width: 100%;
     height: 100%;
     padding: 15vh 0 0 0;
+    &-pinned,
+    &-unpinned {
+      max-width: 75%;
+      margin: 0 auto;
+    }
     &-control {
       flex-wrap: wrap;
       padding: 15px 15px;
       width: unset;
       max-width: (100%/4) * 3;
-      margin: 0 auto;
+      margin: 0 auto 20px auto;
       background-color: transparent;
       &-input {
         order: -1;

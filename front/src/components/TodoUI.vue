@@ -1,42 +1,48 @@
 <template>
   <div class="todo-ui">
-    <span class="todo-ui-title">
-      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" class="svg-inline--fa fa-ellipsis-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path>
-      </svg>
-    </span>
-    <div class="todo-ui-menu">
-      <div class="todo-ui-filter">
-      <span>Filter tasks</span>
-      <select class="todo-ui-filter-selector" v-model="filterOption">
-        <option value="0" selected disabled hidden>Options</option>
-        <option value="All">All</option>
-        <option value="Without Priority">Without priority</option>
-        <option value="High">High</option>
-        <option value="Normal">Normal</option>
-        <option value="Low">Low</option>
-        <option value="Completed">Completed</option>
-      </select>
+    <div class="todo-ui-mobile-top">
+      <span class="todo-ui-title">
+        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" class="svg-inline--fa fa-ellipsis-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z">
+          </path>
+        </svg>
+      </span>
+      <div class="todo-ui-menu">
+        <div class="todo-ui-filter">
+          <span>Filter tasks</span>
+          <select class="todo-ui-filter-selector" v-model="filterOption">
+          <option value="0" selected disabled hidden>Options</option>
+          <option value="All">All</option>
+          <option value="Without Priority">Without priority</option>
+          <option value="High">High</option>
+          <option value="Normal">Normal</option>
+          <option value="Low">Low</option>
+          <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <div class="todo-ui-sort">
+        <span>Sort tasks</span>
+        <select class="todo-ui-sort-selector" v-model="sortingOption">
+          <option value="0" selected disabled hidden>Options</option>
+          <option value="Default">Default</option>
+          <option value="HighLow">From high to low</option>
+          <option value="LowHigh">From low to high</option>
+        </select>
+        </div>
+        <button class="todo-ui-button" @click="$emit('remove-selected-tasks', resetUI)">Remove Selected Tasks</button>
+        <button class="todo-ui-button" @click="$emit('remove-completed-tasks', resetUI)">Remove Completed Tasks</button>
+        <button class="todo-ui-button" @click="$emit('clear-task-list', resetUI)">Clear list</button>
+        <button class="todo-ui-button" @click="$emit('reset-TODO', resetUI)">Reset TODO app</button>
       </div>
-      <div class="todo-ui-sort">
-      <span>Sort tasks</span>
-      <select class="todo-ui-sort-selector" v-model="sortingOption">
-        <option value="0" selected disabled hidden>Options</option>
-        <option value="Default">Default</option>
-        <option value="HighLow">From high to low</option>
-        <option value="LowHigh">From low to high</option>
-      </select>
-      </div>
-      <button class="todo-ui-button" @click="$emit('remove-selected-tasks', resetUI)">Remove Selected Tasks</button>
-      <button class="todo-ui-button" @click="$emit('remove-completed-tasks', resetUI)">Remove Completed Tasks</button>
-      <button class="todo-ui-button" @click="$emit('clear-task-list', resetUI)">Clear list</button>
-      <button class="todo-ui-button" @click="$emit('reset-TODO', resetUI)">Reset TODO app</button>
     </div>
-    <button class="todo-ui-modal-terminator" @click="$emit('toggle-mobile-todo-ui')">
-      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="svg-inline--fa fa-times-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
-        </path>
-      </svg>
-    </button>
+    <div class="todo-ui-mobile-bottom">
+      <button class="todo-ui-modal-terminator" @click="$emit('toggle-mobile-todo-ui')">
+        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="svg-inline--fa fa-times-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+          </path>
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -158,22 +164,28 @@ export default {
 @media (max-width: 1000px) {
   .todo-ui {
     display: none;
+    justify-content: space-between;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    padding: 15px calc(50% - 420px / 2);
     max-width: 100%;
     z-index: 1;
-    &-menu {
+    &-mobile-bottom {
       width: 100%;
+      padding: 0 10px;
+    }
+    &-menu {
       gap: 20px;
+      padding: 0 10px;
     }
     &-button,
     &-filter,
     &-sort {
       background-color: $minorContentBackground;
-      font-size: 18px;
+      font-size: 24px;
       padding: 10px;
       &:hover {
         & span {
@@ -195,14 +207,12 @@ export default {
     }
     &-modal-terminator {
       @include setupFlex(center, center, unset);
-      position: absolute;
-      bottom: 10px;
+      width: 100%;
       background-color: $defaultYellow;
       border: none;
       border-radius: 10px;
       padding: 10px 0;
       margin: 0 auto;
-      width: 75%;
       cursor: pointer;
       fill: $minorContentBackground;
       transition: 0.3s;
