@@ -218,7 +218,6 @@ export default {
     // the textClass is needed for styling of different types of notifications
     // for example an error message is red-colored, while a task creation
     // notification features several colors and styles
-    //! U'm here!
     createNotification (text, textClass) {
       const content = []
       for (let element = 0; element < text.length; element++) {
