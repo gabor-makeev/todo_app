@@ -86,17 +86,9 @@ export default {
           .then(() => {
             this.getTaskList()
           })
-        const notifications = ['::Added task::', `'${task}'`]
-        if (taskPriority === 0) {
-          notifications.push('None')
-        } else {
-          notifications.push(taskPriority)
-        }
-        const classes = ['console-resolve-header', 'console-resolve-content', 'console-resolve-priority']
-        this.createNotification(notifications, classes)
-        this.uniqueTasks++
+        this.createNotification([`Added task: ${task}`, `Priority: ${taskPriority === 0 ? 'None' : taskPriority}`], ['task-notification', 'task-priority-notification'])
       } else {
-        this.createNotification(['Not valid value entered'], ['console-error-content'])
+        this.createNotification(['not valid value entered'], ['error-notification'])
       }
     },
     // removeTask sends a POST requests
@@ -106,6 +98,7 @@ export default {
         .then(() => {
           this.getTaskList()
         })
+      this.createNotification([`Removed task: ${task.text}`])
     },
     // clearTaskList simply removes all tasks via a POST request
     clearTaskList (cb) {
@@ -218,7 +211,7 @@ export default {
     // the textClass is needed for styling of different types of notifications
     // for example an error message is red-colored, while a task creation
     // notification features several colors and styles
-    createNotification (text, textClass) {
+    createNotification (text, textClass = '') {
       const content = []
       for (let element = 0; element < text.length; element++) {
         content.push({
