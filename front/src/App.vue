@@ -36,13 +36,6 @@ export default {
     this.getTaskList()
   },
   methods: {
-    //
-    // Requests START
-    //
-    // GET and POST requests
-    // that are responsible for the communication
-    // between Front and Back-end
-    // in particular, the todo-api/database/taskList.json and taskListSetup.json files
     makeGETRequest (url) {
       return fetch(url)
         .then((data) => {
@@ -61,15 +54,6 @@ export default {
           return data.json()
         })
     },
-    //
-    // Requests END
-    //
-    // Methods with request usage START
-    //
-    // getTaskList obtains the data
-    // about tasks that are already registered
-    // on back-end and assigns it to
-    // taskList and originalList variables on Front-end
     getTaskList () {
       this.makeGETRequest(`${this.API_URL}/taskList`)
         .then((data) => {
@@ -77,38 +61,48 @@ export default {
           this.originalList = data
         })
     },
-    // createTask sends a POST request
-    // which instructs the back-end localhost server
-    // to register the task or send a notification if needed
     createTask (task, taskPriority) {
       if (task.length) {
         this.makePOSTRequest(`${this.API_URL}/addTask`, { text: task, number: this.taskList.length + 1, selectionState: false, completionState: false, pinState: false, priority: taskPriority })
           .then(() => {
             this.getTaskList()
           })
-        this.createNotification([`Added task: ${task}`, `Priority: ${taskPriority === 0 ? 'None' : taskPriority}`], ['task-notification', 'task-priority-notification'])
+        this.uniqueTasks++
+        this.createNotification(
+          [
+            task,
+            taskPriority === 0 ? 'None' : taskPriority
+          ],
+          [
+            'notifications-add',
+            'notifications-priority'
+          ]
+        )
       } else {
-        this.createNotification(['not valid value entered'], ['error-notification'])
+        this.createNotification(
+          ['Not valid value entered'],
+          ['notifications-error']
+        )
       }
     },
-    // removeTask sends a POST requests
-    // and instructs the back-end to remove a specific task
     removeTask (task) {
       this.makePOSTRequest(`${this.API_URL}/removeTask`, task)
         .then(() => {
           this.getTaskList()
         })
-      this.createNotification([`Removed task: ${task.text}`])
+      this.createNotification(
+        [task.text],
+        ['notifications-remove']
+      )
     },
-    // clearTaskList simply removes all tasks via a POST request
     clearTaskList (cb) {
       this.makePOSTRequest(`${this.API_URL}/removeAllTasks`)
         .then(() => {
           this.getTaskList()
         })
+      this.createNotification(['All tasks were successfully removed'])
       cb()
     },
-    // resetTODO resets the app to its original settings (taskList = [], index = null)
     resetTODO (cb) {
       this.makePOSTRequest(`${this.API_URL}/ResetTODOApp`)
         .then(() => {
@@ -117,27 +111,51 @@ export default {
       this.resetConsole()
       cb()
     },
-    // removeCompletedTasks sends a POST request
-    // which instructs to remove all tasks with completionState === true
-    // the state is being checked on the back-end
+    getTaskContentByState (state) {
+      const tasksWithState = []
+      this.taskList.forEach(task => {
+        if (task[state]) {
+          tasksWithState.push(task.text)
+        }
+      })
+      return tasksWithState
+    },
     removeCompletedTasks (cb) {
-      this.makePOSTRequest(`${this.API_URL}/removeCompletedTasks`)
-        .then(() => {
-          this.getTaskList()
-        })
-      cb()
+      if (this.getTaskContentByState('completionState').length) {
+        this.createNotification(
+          ['Completed tasks removed:'].concat(this.getTaskContentByState('completionState')),
+          ['notifications-details']
+        )
+        this.makePOSTRequest(`${this.API_URL}/removeCompletedTasks`)
+          .then(() => {
+            this.getTaskList()
+          })
+        cb()
+      } else {
+        this.createNotification(
+          ['There are no completed tasks to remove'],
+          ['notifications-error']
+        )
+      }
     },
-    // removeSelectedTasks works the same way as removeCompletedTasks
-    // but the selectionState is checked on front-end
-    // as it shouldn't be known on back-end
     removeSelectedTasks (cb) {
-      this.makePOSTRequest(`${this.API_URL}/removeSelectedTasks`, this.getSelectedTasksIDs())
-        .then(() => {
-          this.getTaskList()
-        })
-      cb()
+      if (this.getTaskContentByState('selectionState').length) {
+        this.createNotification(
+          ['Selected tasks removed:'].concat(this.getTaskContentByState('selectionState')),
+          ['notifications-details']
+        )
+        this.makePOSTRequest(`${this.API_URL}/removeSelectedTasks`, this.getSelectedTasksIDs())
+          .then(() => {
+            this.getTaskList()
+          })
+        cb()
+      } else {
+        this.createNotification(
+          ['There are no selected tasks to remove'],
+          ['notifications-error']
+        )
+      }
     },
-    // toggleCompletionState changes the completionState on back-end
     toggleCompletionState (task) {
       this.makePOSTRequest(`${this.API_URL}/toggleCompletion`, task)
         .then(() => {
@@ -150,11 +168,6 @@ export default {
           this.getTaskList()
         })
     },
-    //
-    // Methods with request usage END
-    //
-    // getSelectedTasksIDs collects the data about selectionStates
-    // and returns an array of tasks
     getSelectedTasksIDs () {
       const selectedTasksIDs = []
       this.taskList.forEach(task => {
@@ -164,7 +177,6 @@ export default {
       })
       return selectedTasksIDs
     },
-    // filterList filters the list of tasks on front-end
     filterList (option) {
       if (option === 'All') {
         this.getTaskList()
@@ -176,7 +188,6 @@ export default {
         this.taskList = this.originalList.filter(task => task.priority === option)
       }
     },
-    // sortList sorts the list of tasks on front-end
     sortList (option) {
       const prioritiesArray = ['High', 'Normal', 'Low', 0]
       this.taskList = []
@@ -200,24 +211,27 @@ export default {
         }
       }
     },
-    // initConsole creates launching conditions
-    // for the console component (consoleIndex is used as a key)
     initConsole () {
       this.consoleIndex = 0
     },
-    // in createNotification, the text parameter
-    // is an array containing a string or a series of strings
-    // as soon as a notification may require several lines of messages
-    // the textClass is needed for styling of different types of notifications
-    // for example an error message is red-colored, while a task creation
-    // notification features several colors and styles
     createNotification (text, textClass = '') {
       const content = []
-      for (let element = 0; element < text.length; element++) {
-        content.push({
-          text: text[element],
-          textClass: textClass[element]
+      if (textClass.length > 1) {
+        text.forEach((element, index) => {
+          content.push({
+            text: element,
+            textClass: textClass[index],
+            id: index
+          })
         })
+      } else {
+        for (let element = 0; element < text.length; element++) {
+          content.push({
+            text: text[element],
+            textClass: textClass[0],
+            id: element
+          })
+        }
       }
       if (this.consoleIndex === null) {
         this.initConsole()

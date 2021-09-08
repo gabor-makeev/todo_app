@@ -8,7 +8,7 @@
       <div v-show="console.length" class="console-content">
         <ul>
           <li v-for="log in console" :key="log.number">
-            <span v-for="notification in log.content" :key="notification.textClass" :class="notification.textClass">{{ notification.text }}</span>
+            <span v-for="notification in log.content" :key="notification.element" :class="notification.textClass">{{ notification.text }}</span>
           </li>
         </ul>
       </div>
@@ -75,34 +75,34 @@ export default {
       display: flex;
     }
   }
-  &-error-content {
-    color: $errorRed;
-  }
-  &-resolve-header {
-    padding: 0 calc(100px - 50% / 2);
-    margin: 0 0 5px 0;
-  }
-  &-resolve-header,
-  &-resolve-content::before,
-  &-resolve-priority::before {
-    color: $infoBlue;
-  }
-  &-resolve-content {
-    font-style: italic;
-    color: $defaultTextColor;
-    &::before {
-      content: 'content:';
-      font-style: normal;
-    }
-  }
-  &-resolve-priority {
-    color: $defaultTextColor;
-    &::before {
-      content: 'priority:';
-    }
-  }
   &-modal-terminator {
     display: none;
+  }
+}
+.notifications {
+  &-add {
+    &::before {
+      content: 'Added task:';
+      padding: 0 10px 0 0;
+      color: $infoBlue;
+    }
+  }
+  &-priority {
+    &::before {
+      content: 'Priority:';
+      padding: 0 10px 0 0;
+      color: $infoBlue;
+    }
+  }
+  &-remove {
+    &::before {
+      content: 'Removed task:';
+      padding: 0 10px 0 0;
+      color: $infoBlue;
+    }
+  }
+  &-error {
+    color: $errorRed;
   }
 }
 
