@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="wrapper">
-      <Console :taskIndex="uniqueTasks" :console="console" @toggle-mobile-console="toggleMobileConsole" />
-      <Todo :console="console" :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
+      <Console @toggle-mobile-console="toggleMobileConsole" :consoleRequest="consoleCommand" :actionsLog="actionsLog" />
+      <Todo :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
       <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @reset-console="resetConsole" @toggle-mobile-todo-ui="toggleMobileTodoUI" />
       <MobileInterface @toggle-mobile-console="toggleMobileConsole" @toggle-mobile-TodoUI="toggleMobileTodoUI" />
     </div>
@@ -24,12 +24,8 @@ export default {
   data: () => ({
     taskList: [],
     originalList: [],
-    console: [],
-    consoleIndex: null,
-    mobileConsoleState: null,
-    mobileView: window.innerWidth <= 1000,
-    uniqueTasks: 0,
-    nightMode: true,
+    actionsLog: [], // for notification handling
+    consoleCommand: '',
     API_URL: 'http://localhost:3000'
   }),
   mounted () {
@@ -61,28 +57,14 @@ export default {
           this.originalList = data
         })
     },
-    createTask (task, taskPriority) {
-      if (task.length) {
-        this.makePOSTRequest(`${this.API_URL}/addTask`, { text: task, number: this.taskList.length + 1, selectionState: false, completionState: false, pinState: false, priority: taskPriority })
+    createTask (task) {
+      if (task.text) {
+        this.makePOSTRequest(`${this.API_URL}/addTask`, task)
           .then(() => {
             this.getTaskList()
           })
+        this.logAction('add_task', task)
         this.uniqueTasks++
-        this.createNotification(
-          [
-            task,
-            taskPriority === 0 ? 'None' : taskPriority
-          ],
-          [
-            'notifications-add',
-            'notifications-priority'
-          ]
-        )
-      } else {
-        this.createNotification(
-          ['Not valid value entered'],
-          ['notifications-error']
-        )
       }
     },
     removeTask (task) {
@@ -90,17 +72,14 @@ export default {
         .then(() => {
           this.getTaskList()
         })
-      this.createNotification(
-        [task.text],
-        ['notifications-remove']
-      )
+      this.logAction('remove_task', task)
     },
     clearTaskList (cb) {
       this.makePOSTRequest(`${this.API_URL}/removeAllTasks`)
         .then(() => {
           this.getTaskList()
         })
-      this.createNotification(['All tasks were successfully removed'])
+      this.logAction('remove_tasks')
       cb()
     },
     resetTODO (cb) {
@@ -121,40 +100,20 @@ export default {
       return tasksWithState
     },
     removeCompletedTasks (cb) {
-      if (this.getTaskContentByState('completionState').length) {
-        this.createNotification(
-          ['Completed tasks removed:'].concat(this.getTaskContentByState('completionState')),
-          ['notifications-details']
-        )
-        this.makePOSTRequest(`${this.API_URL}/removeCompletedTasks`)
-          .then(() => {
-            this.getTaskList()
-          })
-        cb()
-      } else {
-        this.createNotification(
-          ['There are no completed tasks to remove'],
-          ['notifications-error']
-        )
-      }
+      this.makePOSTRequest(`${this.API_URL}/removeCompletedTasks`)
+        .then(() => {
+          this.logAction('remove_completed', this.getTaskContentByState('completionState'))
+          this.getTaskList()
+        })
+      cb()
     },
     removeSelectedTasks (cb) {
-      if (this.getTaskContentByState('selectionState').length) {
-        this.createNotification(
-          ['Selected tasks removed:'].concat(this.getTaskContentByState('selectionState')),
-          ['notifications-details']
-        )
-        this.makePOSTRequest(`${this.API_URL}/removeSelectedTasks`, this.getSelectedTasksIDs())
-          .then(() => {
-            this.getTaskList()
-          })
-        cb()
-      } else {
-        this.createNotification(
-          ['There are no selected tasks to remove'],
-          ['notifications-error']
-        )
-      }
+      this.makePOSTRequest(`${this.API_URL}/removeSelectedTasks`, this.getSelectedTasksIDs())
+        .then(() => {
+          this.logAction('remove_selected', this.getTaskContentByState('selectionState'))
+          this.getTaskList()
+        })
+      cb()
     },
     toggleCompletionState (task) {
       this.makePOSTRequest(`${this.API_URL}/toggleCompletion`, task)
@@ -211,43 +170,14 @@ export default {
         }
       }
     },
-    initConsole () {
-      this.consoleIndex = 0
-    },
-    createNotification (text, textClass = '') {
-      const content = []
-      if (textClass.length > 1) {
-        text.forEach((element, index) => {
-          content.push({
-            text: element,
-            textClass: textClass[index],
-            id: index
-          })
-        })
-      } else {
-        for (let element = 0; element < text.length; element++) {
-          content.push({
-            text: text[element],
-            textClass: textClass[0],
-            id: element
-          })
-        }
-      }
-      if (this.consoleIndex === null) {
-        this.initConsole()
-      } else {
-        this.consoleIndex++
-      }
-      this.console.unshift({
-        content: content,
-        number: this.consoleIndex
+    logAction (action, data = null) {
+      this.actionsLog.push({
+        type: action,
+        data: data
       })
     },
-    toggleTheme () {
-      this.nightMode = !this.nightMode
-    },
     resetConsole () {
-      this.console = []
+      this.consoleCommand = 'reset'
     },
     toggleMobileConsole () {
       document
@@ -260,17 +190,6 @@ export default {
         .querySelector('.todo-ui')
         .classList
         .toggle('visible-mobile-todo-ui')
-    }
-  },
-  watch: {
-    nightMode () {
-      const body = document.getElementsByTagName('body')[0]
-      body.style.transition = '0.3s'
-      if (this.nightMode) {
-        body.style.backgroundColor = 'black'
-      } else {
-        body.style.backgroundColor = 'white'
-      }
     }
   }
 }

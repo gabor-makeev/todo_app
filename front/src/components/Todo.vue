@@ -17,7 +17,7 @@
           <button class="todo-control-none-priority" @click="changePriority('None')">None</button>
         </div>
       </div>
-      <button @click="initTaskCreation(taskContent, taskPriority)" class="todo-control-button">Add</button>
+      <button @click="initTaskCreation(getTaskObject(taskContent, taskPriority))" class="todo-control-button">Add</button>
     </div>
     <div class="todo-pinned" v-show="pinnedTasks">
       <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paperclip" class="svg-inline--fa fa-paperclip fa-w-14 todo-pinned-paperclip" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -57,9 +57,6 @@ export default {
       type: Array,
       default: () => []
     },
-    console: {
-      type: Array
-    },
     rerenderTaskIndexes: {
       type: Function
     },
@@ -74,11 +71,21 @@ export default {
     }
   },
   methods: {
-    initTaskCreation (task, taskPriority) {
-      this.createTask(task, taskPriority)
+    initTaskCreation (task) {
+      this.createTask(task)
       this.taskContent = ''
       this.taskPriority = 0
       document.querySelector('.todo-control-priority-button').textContent = 'Choose'
+    },
+    getTaskObject (taskText, taskPriority) {
+      return {
+        text: taskText,
+        number: this.taskList.length + 1,
+        selectionState: false,
+        completionState: false,
+        pinState: false,
+        priority: taskPriority
+      }
     },
     removeElement (task) {
       this.$emit('remove-task', task)

@@ -3,7 +3,7 @@
     <div class="console-mobile-top">
       <div class="console-header">
         <span class="console-header-title">History</span>
-        <span v-show="console.length" class="console-header-taskcounter">Unique tasks created during this session: {{ taskIndex }}</span>
+        <span v-show="console.length" class="console-header-taskcounter">Unique tasks created during this session: {{ uniqueTasks }}</span>
       </div>
       <div v-show="console.length" class="console-content">
         <ul>
@@ -26,13 +26,95 @@
 
 <script>
 export default {
+  data: () => ({
+    console: [],
+    consoleIndex: null,
+    uniqueTasks: null
+  }),
   props: {
-    taskIndex: {
-      type: Number
+    consoleRequest: {
+      type: String,
+      default: ''
     },
-    console: {
+    actionsLog: {
       type: Array,
       default: () => []
+    }
+  },
+  methods: {
+    createNotification (text, textClass = '') {
+      const content = []
+      if (textClass.length > 1) {
+        text.forEach((element, index) => {
+          content.push({
+            text: element,
+            textClass: textClass[index],
+            id: index
+          })
+        })
+      } else {
+        for (let element = 0; element < text.length; element++) {
+          content.push({
+            text: text[element],
+            textClass: textClass[0],
+            id: element
+          })
+        }
+      }
+      if (this.consoleIndex === null) {
+        this.initConsole()
+      } else {
+        this.consoleIndex++
+      }
+      this.console.unshift({
+        content: content,
+        number: this.consoleIndex
+      })
+    },
+    initConsole () {
+      this.console = []
+      this.consoleIndex = 0
+    },
+    fetchUniqueTasks () {
+      this.uniqueTasks === null ? this.uniqueTasks = 1 : this.uniqueTasks++
+    }
+  },
+  watch: {
+    consoleRequest () {
+      if (this.consoleRequest === 'reset') {
+        this.console = []
+        this.consoleIndex = null
+        this.uniqueTasks = null
+      }
+    },
+    actionsLog () {
+      // TODO change the statement to switch case, simplify completed and selected tasks removal
+      const lastAction = this.actionsLog[this.actionsLog.length - 1]
+      if (lastAction.type === 'add_task') {
+        const task = lastAction.data
+        this.createNotification(
+          [task.text, task.priority !== 0 ? task.priority : task.priority = 'None'],
+          ['notifications-add', 'notifications-priority']
+        )
+      } else if (lastAction.type === 'remove_task') {
+        const task = lastAction.data
+        this.createNotification(
+          [task.text],
+          ['notifications-remove']
+        )
+      } else if (lastAction.type === 'remove_tasks') {
+        this.createNotification(['All tasks were successfully removed'])
+        //! Empty taskList handling needed
+      } else if (lastAction.type === 'remove_completed') {
+        const completedTasks = lastAction.data
+        this.createNotification(
+          ['Completed tasks removed:'].concat(completedTasks))
+      } else if (lastAction.type === 'remove_selected') {
+        const selectedTasks = lastAction.data
+        this.createNotification(
+          ['Completed tasks removed:'].concat(selectedTasks))
+      }
+      this.fetchUniqueTasks()
     }
   }
 }
