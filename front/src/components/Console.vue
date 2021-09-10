@@ -88,31 +88,40 @@ export default {
       }
     },
     actionsLog () {
-      // TODO change the statement to switch case, simplify completed and selected tasks removal
       const lastAction = this.actionsLog[this.actionsLog.length - 1]
-      if (lastAction.type === 'add_task') {
-        const task = lastAction.data
-        this.createNotification(
-          [task.text, task.priority !== 0 ? task.priority : task.priority = 'None'],
-          ['notifications-add', 'notifications-priority']
-        )
-      } else if (lastAction.type === 'remove_task') {
-        const task = lastAction.data
-        this.createNotification(
-          [task.text],
-          ['notifications-remove']
-        )
-      } else if (lastAction.type === 'remove_tasks') {
-        this.createNotification(['All tasks were successfully removed'])
-        //! Empty taskList handling needed
-      } else if (lastAction.type === 'remove_completed') {
-        const completedTasks = lastAction.data
-        this.createNotification(
-          ['Completed tasks removed:'].concat(completedTasks))
-      } else if (lastAction.type === 'remove_selected') {
-        const selectedTasks = lastAction.data
-        this.createNotification(
-          ['Completed tasks removed:'].concat(selectedTasks))
+      const type = lastAction.type
+      const actionData = lastAction.data
+      switch (type) {
+        case 'add_task':
+          this.createNotification(
+            [actionData.text, actionData.priority !== 0 ? actionData.priority : actionData.priority = 'None'],
+            ['notifications-add', 'notifications-priority']
+          )
+          break
+        case 'remove_task':
+          this.createNotification(
+            [actionData.text],
+            ['notifications-remove']
+          )
+          break
+        case 'remove_tasks':
+          this.createNotification(
+            ['All tasks were successfully removed']
+          )
+          break
+          //! Empty taskList handling needed
+        case 'remove_completed':
+          this.createNotification(
+            ['Completed tasks removed:'].concat(actionData)
+          )
+          break
+          //! Empty completed tasks handling needed
+        case 'remove_selected':
+          this.createNotification(
+            ['Completed tasks removed:'].concat(actionData)
+          )
+          break
+          //! Empty selected tasks handling needed
       }
       this.fetchUniqueTasks()
     }
