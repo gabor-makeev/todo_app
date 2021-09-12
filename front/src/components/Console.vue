@@ -97,6 +97,7 @@ export default {
             [actionData.text, actionData.priority !== 0 ? actionData.priority : actionData.priority = 'None'],
             ['notifications-add', 'notifications-priority']
           )
+          this.fetchUniqueTasks()
           break
         case 'remove_task':
           this.createNotification(
@@ -105,25 +106,41 @@ export default {
           )
           break
         case 'remove_tasks':
-          this.createNotification(
-            ['All tasks were successfully removed']
-          )
+          if (actionData.length) {
+            this.createNotification(['All tasks were successfully removed'], ['notifications-success'])
+          } else {
+            this.createNotification(['There are no tasks to remove'], ['notifications-error'])
+          }
           break
-          //! Empty taskList handling needed
         case 'remove_completed':
-          this.createNotification(
-            ['Completed tasks removed:'].concat(actionData)
-          )
+          if (actionData.length) {
+            const notificationsTasks = []
+            actionData.forEach(task => {
+              notificationsTasks.push('notifications-tasks')
+            })
+            this.createNotification(
+              ['Completed tasks removed:'].concat(actionData),
+              ['notifications-success'].concat(notificationsTasks)
+            )
+          } else {
+            this.createNotification(['There are no completed tasks to remove'], ['notifications-error'])
+          }
           break
-          //! Empty completed tasks handling needed
         case 'remove_selected':
-          this.createNotification(
-            ['Completed tasks removed:'].concat(actionData)
-          )
+          if (actionData.length) {
+            const notificationsTasks = []
+            actionData.forEach(task => {
+              notificationsTasks.push('notifications-tasks')
+            })
+            this.createNotification(
+              ['Selected tasks removed:'].concat(actionData),
+              ['notifications-success'].concat(notificationsTasks)
+            )
+          } else {
+            this.createNotification(['There are no selected tasks to remove'], ['notifications-error'])
+          }
           break
-          //! Empty selected tasks handling needed
       }
-      this.fetchUniqueTasks()
     }
   }
 }
@@ -194,6 +211,20 @@ export default {
   }
   &-error {
     color: $errorRed;
+  }
+  &-success {
+    color: $defaultGreen;
+  }
+  &-tasks {
+    height: 35px;
+    @include setupFlex(unset, center, unset);
+    padding-top: 10px;
+    &::before {
+      content: url('../assets/images/icons/task-icon.svg');
+      width: 20px;
+      height: 25px;
+      margin-right: 10px;
+    }
   }
 }
 

@@ -79,7 +79,7 @@ export default {
         .then(() => {
           this.getTaskList()
         })
-      this.logAction('remove_tasks')
+      this.logAction('remove_tasks', this.taskList)
       cb()
     },
     resetTODO (cb) {
