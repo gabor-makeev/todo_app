@@ -220,10 +220,13 @@ export default {
     @include setupFlex(unset, center, unset);
     padding-top: 10px;
     &::before {
-      content: url('../assets/images/icons/task-icon.svg');
-      width: 20px;
-      height: 25px;
-      margin-right: 10px;
+      content: '';
+      width: 15px;
+      height: 15px;
+      background-color: $defaultGreen;
+      border-radius: 5px;
+      margin: 0 10px 0 0;
+      border: 1px solid white
     }
   }
 }
