@@ -85,6 +85,7 @@ export default {
         this.console = []
         this.consoleIndex = null
         this.uniqueTasks = null
+        this.$emit('make-console-request', '')
       }
     },
     actionsLog () {
@@ -93,11 +94,18 @@ export default {
       const actionData = lastAction.data
       switch (type) {
         case 'add_task':
-          this.createNotification(
-            [actionData.text, actionData.priority !== 0 ? actionData.priority : actionData.priority = 'None'],
-            ['notifications-add', 'notifications-priority']
-          )
-          this.fetchUniqueTasks()
+          if (actionData) {
+            this.createNotification(
+              [actionData.text, actionData.priority !== 0 ? actionData.priority : actionData.priority = 'None'],
+              ['notifications-add', 'notifications-priority']
+            )
+            this.fetchUniqueTasks()
+          } else {
+            this.createNotification(
+              ['No text entered :('],
+              ['notifications-error']
+            )
+          }
           break
         case 'remove_task':
           this.createNotification(

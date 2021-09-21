@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="wrapper">
-      <Console @toggle-mobile-console="toggleMobileConsole" :consoleRequest="consoleCommand" :actionsLog="actionsLog" />
+      <Console @toggle-mobile-console="toggleMobileConsole" :consoleRequest="consoleCommand" :actionsLog="actionsLog" @make-console-request="makeConsoleRequest" />
       <Todo :taskList="taskList" :createTask="createTask" @remove-task="removeTask" :toggleCompletionState="toggleCompletionState" :togglePinState="togglePinState" />
-      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @reset-console="resetConsole" @toggle-mobile-todo-ui="toggleMobileTodoUI" />
+      <TodoUI @clear-task-list="clearTaskList" @reset-TODO="resetTODO" @remove-completed-tasks="removeCompletedTasks" @remove-selected-tasks="removeSelectedTasks" @filter-list="filterList" @sort-list="sortList" @toggle-mobile-todo-ui="toggleMobileTodoUI" />
       <MobileInterface @toggle-mobile-console="toggleMobileConsole" @toggle-mobile-TodoUI="toggleMobileTodoUI" />
     </div>
   </div>
@@ -65,6 +65,8 @@ export default {
           })
         this.logAction('add_task', task)
         this.uniqueTasks++
+      } else {
+        this.logAction('add_task')
       }
     },
     removeTask (task) {
@@ -87,7 +89,7 @@ export default {
         .then(() => {
           this.getTaskList()
         })
-      this.resetConsole()
+      this.makeConsoleRequest('reset')
       cb()
     },
     getTaskContentByState (state) {
@@ -176,8 +178,8 @@ export default {
         data: data
       })
     },
-    resetConsole () {
-      this.consoleCommand = 'reset'
+    makeConsoleRequest (request) {
+      this.consoleCommand = `${request}`
     },
     toggleMobileConsole () {
       document
