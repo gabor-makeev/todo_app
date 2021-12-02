@@ -1,177 +1,42 @@
 const express = require('express')
 const cors = require('cors')
-const fs = require('fs')
 const bodyParser = require('body-parser')
 const app = express()
 
-const { settings, taskList } = require('./todo');
+const { getTaskList } = require('./modules/getRequests')
+
+const { 
+  addTask, 
+  removeTask, 
+  resetApp, 
+  switchCompletionState,
+  switchPinningState,
+  removeCompletedTasks,
+  removeSelectedTasks,
+  removeAllTasks
+} = require('./modules/postRequests')
 
 app.use(cors())
 app.use(bodyParser.json())
 
 app.listen(3000, () => {
-console.log('Server started on 3000 port!')
+  console.log('Server started on 3000 port!')
 })
 
-app.get('/taskList', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    res.send(data)
-  })
-})
+app.get('/taskList', (req, res) => getTaskList(res))
 
-app.post('/addTask', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-      const list = new taskList(JSON.parse(data))
+app.post('/addTask', (req, res) => addTask(req, res))
 
-      const setup = new settings()
-      setup.reassignIndex()
+app.post('/removeTask', (req, res) => removeTask(req, res))
 
-      list.add(req.body, setup.getSetup().index)
+app.post('/ResetTODOApp', (req, res) => resetApp(req, res))
 
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
+app.post('/toggleCompletion', (req, res) => switchCompletionState(req, res))
 
-app.post('/removeTask', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
+app.post('/togglePin', (req, res) => switchPinningState(req, res))
 
-      const list = new taskList(JSON.parse(data))
-      list.remove(req.body)
+app.post('/removeCompletedTasks', (req, res) => removeCompletedTasks(res))
 
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
+app.post('/removeSelectedTasks', (req, res) => removeSelectedTasks(req, res))
 
-app.post('/ResetTODOApp', (req, res) => {
-
-  const setup = new settings()
-  setup.resetIndex()
-
-  fs.writeFile('./database/taskList.json', JSON.stringify([]), (err) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-      res.send('{ "result": 1 }')
-    }
-  })
-})
-
-app.post('/toggleCompletion', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-
-      const list = new taskList(JSON.parse(data))
-      list.switchCompletionState(req.body)
-
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
-
-app.post('/togglePin', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-
-      const list = new taskList(JSON.parse(data))
-      list.switchPinState(req.body)
-
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
-
-app.post('/removeCompletedTasks', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-
-      const list = new taskList(JSON.parse(data))
-      list.removeCompletedTasks()
-
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
-
-app.post('/removeSelectedTasks', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-
-      const list = new taskList(JSON.parse(data))
-      list.removeSelectedTasks(req.body)
-
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
-
-app.post('/removeAllTasks', (req, res) => {
-  fs.readFile('./database/taskList.json', 'utf8', (err, data) => {
-    if (err) {
-      res.send('{ "result": 0 }')
-    } else {
-
-      const list = new taskList(JSON.parse(data))
-      list.removeAllTasks()
-
-      fs.writeFile('./database/taskList.json', JSON.stringify(list.content), (err) => {
-        if (err) {
-          res.send('{ "result": 0 }')
-        } else {
-          res.send('{ "result": 1 }')
-        }
-      })
-    }
-  })
-})
+app.post('/removeAllTasks', (req, res) => removeAllTasks(res))
